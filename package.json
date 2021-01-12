@@ -19,7 +19,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "set TS_NODE_COMPILER_OPTIONS={\"module\": \"commonjs\"} & mocha --require ts-node/register ./tests/CalculatorModuleTests.spec.ts",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -41,6 +41,9 @@
     ]
   },
   "devDependencies": {
-    "mocha": "^8.2.1"
+    "@types/chai": "^4.2.14",
+    "chai": "^4.2.0",
+    "mocha": "^8.2.1",
+    "ts-node": "^9.1.1"
   }
 }
