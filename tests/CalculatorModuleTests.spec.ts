@@ -3,7 +3,9 @@ import { expect } from "chai"
 class CalculatorModule{
     result = 0
 
-    calculate = () => {}
+    calculate = () => {
+        return 0
+    }
 }
 
 describe("Test CalculatorModule behaviour", function(){
@@ -14,8 +16,8 @@ describe("Test CalculatorModule behaviour", function(){
 
     it("test_calculate_noInput_returnZero", () => {
         let sut = new CalculatorModule()
-        sut.calculate()
+        let result = sut.calculate()
 
-        expect(sut.result).to.be.equal(0)
+        expect(result).to.be.equal(0)
     })
 })
