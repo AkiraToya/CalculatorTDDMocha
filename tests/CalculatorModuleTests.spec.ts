@@ -81,6 +81,12 @@ describe("Test CalculatorModule behaviour", function(){
 
     // MARK: HELPER
     function makeSUT(): CalculatorModule{
+        
+        let sut = new CalculatorModule(makeOperatorList())
+        return sut
+    }
+
+    function makeOperatorList(): OperatorList{
         let addition = (num1: number, num2: number) => {
             return num1 + num2
         }
@@ -93,7 +99,7 @@ describe("Test CalculatorModule behaviour", function(){
             "+": { symbol: "+", calculateFn: addition },
             "-": { symbol: "-", calculateFn: subtract }
         }
-        let sut = new CalculatorModule(operatorList)
-        return sut
+
+        return operatorList
     }
 })
