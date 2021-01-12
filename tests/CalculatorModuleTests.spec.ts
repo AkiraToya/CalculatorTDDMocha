@@ -1,20 +1,42 @@
 import { expect } from "chai"
 
 class CalculatorModule{
-    addition(num1: number, num2: number){
+    private addition(num1: number, num2: number) {
         return num1 + num2
     }
 
-    subtract(num1: number, num2: number) {
+    private subtract(num1: number, num2: number) {
         return num1 - num2
     }
 
-    operatorList: {[operator: string]: {symbol: string, calculateFn: (num1: number, num2: number) => number }} = {
-        "+": {symbol: "+", calculateFn: this.addition},
-        "-": {symbol: "-", calculateFn: this.subtract}
+    private operatorList: { [operator: string]: { symbol: string, calculateFn: (num1: number, num2: number) => number } } = {
+        "+": { symbol: "+", calculateFn: this.addition },
+        "-": { symbol: "-", calculateFn: this.subtract }
+    }
+    
+    calculate = (calculatorString: string = "") => {
+        if (calculatorString == "") return 0
+        if (isNaN(parseInt(calculatorString))) return 0
+
+        var formattedCalculatorString = this.formatCalculatorString(calculatorString)
+        let elements = formattedCalculatorString.split(" ")
+
+        if (elements.length == 1) return parseInt(elements[0])
+
+        var total = 0
+        var previousOperator = ""
+        elements.forEach((element, index) => {
+            if (index == 0) { total = total + parseInt(element); return }
+
+            previousOperator = this.getOperator(element) ?? previousOperator
+            total = this.calculateOperator(total, element, previousOperator)
+
+        })
+
+        return total
     }
 
-    formatCalculatorString(calculatorString: string){
+    private formatCalculatorString(calculatorString: string){
         var formattedCalculatorString = calculatorString.trim()
 
         for (var operator in this.operatorList) {
@@ -24,40 +46,18 @@ class CalculatorModule{
         return formattedCalculatorString
     }
 
-    getOperator(element: string){
+    private getOperator(element: string){
         if (element in this.operatorList) {
             return element
         }
     }
 
-    calculateOperator(total: number, element: string, operator: string){
+    private calculateOperator(total: number, element: string, operator: string){
         if (parseInt(element)) {
             if (operator in this.operatorList) {
                 total = this.operatorList[operator].calculateFn(total, parseInt(element))
             }
         } 
-
-        return total
-    }
-
-    calculate = (calculatorString: string = "") => {
-        if(calculatorString == "") return 0
-        if(isNaN(parseInt(calculatorString))) return 0
-
-        var formattedCalculatorString = this.formatCalculatorString(calculatorString)
-        let elements = formattedCalculatorString.split(" ")
-        
-        if (elements.length == 1) return parseInt(elements[0])
-
-        var total = 0
-        var previousOperator = ""
-        elements.forEach( (element, index)  => {
-            if (index == 0){ total = total + parseInt(element); return } 
-
-            previousOperator = this.getOperator(element) ?? previousOperator
-            total = this.calculateOperator(total, element, previousOperator)
-            
-        })
 
         return total
     }
