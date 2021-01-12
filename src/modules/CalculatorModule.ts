@@ -2,8 +2,11 @@ export interface OperatorList{
     [operator: string]: OperatorFunction
 }
 
-interface OperatorFunction{
+interface OperatorFunction extends Calculate{
     symbol: string
+}
+
+interface Calculate{
     calculateFn: (num1: number, num2: number) => number
 }
 
