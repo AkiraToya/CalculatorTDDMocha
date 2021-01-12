@@ -19,7 +19,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "set TS_NODE_COMPILER_OPTIONS={\"module\": \"commonjs\"} & mocha --require ts-node/register --watch --recursive ./tests/**/*.spec.ts --extension spec.ts",
+    "test": "set TS_NODE_COMPILER_OPTIONS={\"module\": \"commonjs\"} & mocha --require ts-node/register --watch --recursive ./tests/**/*.spec.ts --extension spec.ts --watch-files ./src/",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
