@@ -37,14 +37,14 @@ describe("Test CalculatorModule behaviour", function(){
         expect(result).to.be.equal(0)
     })
 
-    it("test_calculate_doubleOperator_returnZero", () => {
+    it("test_calculate_doubleSameOperator_returnZero", () => {
         let sut = new CalculatorModule()
         let result = sut.calculate("1++1")
 
         expect(result).to.be.equal(0)
     })
 
-    it("test_calculate_moreThanTwoOperator_returnZero", () => {
+    it("test_calculate_moreThanTwoSameOperator_returnZero", () => {
         let sut = new CalculatorModule()
         let result = sut.calculate("1+++1")
 
