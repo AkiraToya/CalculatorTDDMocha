@@ -1,11 +1,9 @@
 import { expect } from "chai"
 
 class CalculatorModule{
-    private result = 0
-
     calculate = (calculatorString: string = "") => {
         if(calculatorString == "") return 0
-        
+
         return parseInt(calculatorString)
     }
 }
