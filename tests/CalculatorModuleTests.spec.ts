@@ -13,10 +13,9 @@ class CalculatorModule{
         "+": { symbol: "+", calculateFn: this.addition },
         "-": { symbol: "-", calculateFn: this.subtract }
     }
-    
+
     calculate = (calculatorString: string = "") => {
-        if (calculatorString == "") return 0
-        if (isNaN(parseInt(calculatorString))) return 0
+        if(this.isErrorString(calculatorString)) return 0
 
         var formattedCalculatorString = this.formatCalculatorString(calculatorString)
         let elements = formattedCalculatorString.split(" ")
@@ -34,6 +33,13 @@ class CalculatorModule{
         })
 
         return total
+    }
+
+    private isErrorString(string: string){
+        if (string == "") return true
+        if (isNaN(parseInt(string))) return true
+
+        return false
     }
 
     private formatCalculatorString(calculatorString: string){
