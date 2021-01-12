@@ -5,7 +5,7 @@ class CalculatorModule{
         if(calculatorString == "") return 0
         if(isNaN(parseInt(calculatorString))) return 0
 
-        let formattedCalculatorString = calculatorString.trim().split("+").join(" + ")
+        let formattedCalculatorString = calculatorString.trim().split("+").join(" + ").split("-").join(" - ")
         let elements = formattedCalculatorString.split(" ")
 
         if (elements.length == 1) return parseInt(elements[0])
@@ -50,18 +50,32 @@ describe("Test CalculatorModule behaviour", function(){
         expect(result).to.be.equal(0)
     })
 
-    it("test_calculate_doubleSameOperator_returnResult_omitPreviousOperator", () => {
+    it("test_calculate_doubleSameOperatorAddition_returnResult_omitPreviousOperator", () => {
         let sut = new CalculatorModule()
         let result = sut.calculate("1++1")
 
         expect(result).to.be.equal(2)
     })
 
-    it("test_calculate_moreThanTwoSameOperator_returnResult_omitPreviousOperator", () => {
+    it("test_calculate_moreThanTwoSameOperatorAddition_returnResult_omitPreviousOperator", () => {
         let sut = new CalculatorModule()
         let result = sut.calculate("1+++1")
 
         expect(result).to.be.equal(2)
+    })
+
+    it("test_calculate_doubleSameOperatorSubtract_returnResult_omitPreviousOperator", () => {
+        let sut = new CalculatorModule()
+        let result = sut.calculate("1--1")
+
+        expect(result).to.be.equal(0)
+    })
+
+    it("test_calculate_moreThanTwoSameOperatorSubtract_returnResult_omitPreviousOperator", () => {
+        let sut = new CalculatorModule()
+        let result = sut.calculate("4---1")
+
+        expect(result).to.be.equal(3)
     })
 
     it("test_calculate_additionOftwoNumber_returnTheResult", () => {
