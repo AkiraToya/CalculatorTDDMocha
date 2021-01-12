@@ -5,11 +5,12 @@ class CalculatorModule{
         if(calculatorString == "") return 0
         if(isNaN(parseInt(calculatorString))) return 0
 
-        let numbers = calculatorString.trim().split("+")
+        let numbersInString = calculatorString.trim().split("+")
 
-        if(numbers.length == 1) return parseInt(numbers[0])
+        if(numbersInString.length == 1) return parseInt(numbersInString[0])
 
-        return parseInt(numbers[0]) + parseInt(numbers[1])
+        let numbers: number[] = numbersInString.map( value => parseInt(value) )
+        return numbers.reduce( (sum, curValue) => sum + curValue, 0 )
     }
 }
 
@@ -40,5 +41,12 @@ describe("Test CalculatorModule behaviour", function(){
         let result = sut.calculate("3 + 2")
 
         expect(result).to.be.equal(5)
+    })
+
+    it("test_calculate_additionOftwoNumber_returnTheResult", () => {
+        let sut = new CalculatorModule()
+        let result = sut.calculate("3 + 2 + 4")
+
+        expect(result).to.be.equal(9)
     })
 })
