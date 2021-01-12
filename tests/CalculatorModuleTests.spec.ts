@@ -1,5 +1,5 @@
 import { expect } from "chai"
-import { CalculatorModule, OperatorList } from "../src/modules/CalculatorModule"
+import { AdditionOperatorFunction, CalculatorModule, OperatorList, SubtractOperatorFunction } from "../src/modules/CalculatorModule"
 
 describe("Test CalculatorModule behaviour", function(){
     it("test_calculate_noInput_returnZero", () => {
@@ -87,17 +87,9 @@ describe("Test CalculatorModule behaviour", function(){
     }
 
     function makeOperatorList(): OperatorList{
-        let addition = (num1: number, num2: number) => {
-            return num1 + num2
-        }
-
-        let subtract = (num1: number, num2: number) => {
-            return num1 - num2
-        }
-
         let operatorList: OperatorList = {
-            "+": { symbol: "+", calculateFn: addition },
-            "-": { symbol: "-", calculateFn: subtract }
+            "+": new AdditionOperatorFunction(),
+            "-": new SubtractOperatorFunction()
         }
 
         return operatorList

@@ -2,13 +2,27 @@ export interface OperatorList{
     [operator: string]: OperatorFunction
 }
 
-interface OperatorFunction extends Calculate{
+interface OperatorFunction{
     symbol: string
-}
-
-interface Calculate{
     calculateFn: (num1: number, num2: number) => number
 }
+
+export class AdditionOperatorFunction implements OperatorFunction{
+    symbol = "+"
+
+    calculateFn = (num1: number, num2: number) => {
+        return num1 + num2
+    }
+}
+
+export class SubtractOperatorFunction implements OperatorFunction {
+    symbol = "-"
+
+    calculateFn = (num1: number, num2: number) => {
+        return num1 - num2
+    }
+}
+
 
 export class CalculatorModule {
     private operatorList: OperatorList
