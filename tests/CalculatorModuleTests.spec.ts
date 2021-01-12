@@ -1,13 +1,52 @@
 import { expect } from "chai"
 
 class CalculatorModule{
+    addition(num1: number, num2: number){
+        return num1 + num2
+    }
+
+    subtract(num1: number, num2: number) {
+        return num1 - num2
+    }
+
+    operatorList: {[operator: string]: {symbol: string, calculateFn: (num1: number, num2: number) => number }} = {
+        "+": {symbol: "+", calculateFn: this.addition},
+        "-": {symbol: "-", calculateFn: this.subtract}
+    }
+
+    formatCalculatorString(calculatorString: string){
+        var formattedCalculatorString = calculatorString.trim()
+
+        for (var operator in this.operatorList) {
+            formattedCalculatorString = formattedCalculatorString.split(operator).join(` ${operator} `)
+        }
+
+        return formattedCalculatorString
+    }
+
+    getOperator(element: string){
+        if (element in this.operatorList) {
+            return element
+        }
+    }
+
+    calculateOperator(total: number, element: string, operator: string){
+        if (parseInt(element)) {
+            if (operator in this.operatorList) {
+                total = this.operatorList[operator].calculateFn(total, parseInt(element))
+            }
+        } 
+
+        return total
+    }
+
     calculate = (calculatorString: string = "") => {
         if(calculatorString == "") return 0
         if(isNaN(parseInt(calculatorString))) return 0
 
-        let formattedCalculatorString = calculatorString.trim().split("+").join(" + ").split("-").join(" - ")
+        var formattedCalculatorString = this.formatCalculatorString(calculatorString)
         let elements = formattedCalculatorString.split(" ")
-
+        
         if (elements.length == 1) return parseInt(elements[0])
 
         var total = 0
@@ -15,13 +54,9 @@ class CalculatorModule{
         elements.forEach( (element, index)  => {
             if (index == 0){ total = total + parseInt(element); return } 
 
-            if(element == "+"){ previousOperator = "+"; return }
-            if(element == "-"){ previousOperator = "-"; return }
-
-            if (parseInt(element)){
-                if(previousOperator == "+") total += parseInt(element)
-                else if(previousOperator == "-") total -= parseInt(element)
-            } 
+            previousOperator = this.getOperator(element) ?? previousOperator
+            total = this.calculateOperator(total, element, previousOperator)
+            
         })
 
         return total
