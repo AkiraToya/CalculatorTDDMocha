@@ -1,15 +1,17 @@
+export interface OperatorList{
+    [operator: string]: OperatorFunction
+}
+
+interface OperatorFunction{
+    symbol: string
+    calculateFn: (num1: number, num2: number) => number
+}
+
 export class CalculatorModule {
-    private addition(num1: number, num2: number) {
-        return num1 + num2
-    }
+    private operatorList: OperatorList
 
-    private subtract(num1: number, num2: number) {
-        return num1 - num2
-    }
-
-    private operatorList: { [operator: string]: { symbol: string, calculateFn: (num1: number, num2: number) => number } } = {
-        "+": { symbol: "+", calculateFn: this.addition },
-        "-": { symbol: "-", calculateFn: this.subtract }
+    constructor(operatorList: OperatorList){
+        this.operatorList = operatorList
     }
 
     calculate = (calculatorString: string = "") => {
