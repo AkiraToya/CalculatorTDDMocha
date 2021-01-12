@@ -1,5 +1,5 @@
 import { expect } from "chai"
-import { CalculatorModule } from "./CalculatorModule"
+import { CalculatorModule } from "../src/modules/CalculatorModule"
 
 describe("Test CalculatorModule behaviour", function(){
     it("test_calculate_noInput_returnZero", () => {
