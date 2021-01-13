@@ -41,55 +41,35 @@ export class CalculatorModule {
 
     calculate = (calculatorString: string = "") => {
         if (this.isErrorString(calculatorString)) return 0
-
         var formattedCalculatorString = this.formatCalculatorString(calculatorString)
-        let elements = formattedCalculatorString.split(" ")
 
+        return this.processCalculate(formattedCalculatorString)
+    }
+
+    private processCalculate = (calculatorString: string) => {
+        let elements = calculatorString.replace(/([+*])/, ",$1,").split(",")
         if (elements.length == 1) return parseInt(elements[0])
 
         var total = 0
-        var previousOperator = ""
-        elements.forEach((element, index) => {
-            if (index == 0) { total = total + parseInt(element); return }
+        let operator = elements[1]
 
-            previousOperator = this.getOperator(element) ?? previousOperator
-            total = this.calculateOperator(total, element, previousOperator)
+        if (operator in this.operatorList) {
+            total = this.operatorList[operator].calculateFn(isNaN(parseInt(elements[0])) ? 0 : parseInt(elements[0]), this.processCalculate(elements[2]))
 
-        })
-
+        }
         return total
     }
 
     private isErrorString(string: string) {
         if (string == "") return true
-        if (isNaN(parseInt(string))) return true
+        if (string.match(/[a-z]/g)) return true
 
         return false
     }
 
     private formatCalculatorString(calculatorString: string) {
         var formattedCalculatorString = calculatorString.trim()
-
-        for (var operator in this.operatorList) {
-            formattedCalculatorString = formattedCalculatorString.split(operator).join(` ${operator} `)
-        }
-
+        formattedCalculatorString = formattedCalculatorString.replace(/--/g, "+").replace(/-/g, "+-").replace(/\s/g, "")
         return formattedCalculatorString
-    }
-
-    private getOperator(element: string) {
-        if (element in this.operatorList) {
-            return element
-        }
-    }
-
-    private calculateOperator(total: number, element: string, operator: string) {
-        if (parseInt(element)) {
-            if (operator in this.operatorList) {
-                total = this.operatorList[operator].calculateFn(total, parseInt(element))
-            }
-        }
-
-        return total
     }
 }

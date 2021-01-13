@@ -30,21 +30,21 @@ describe("Test CalculatorModule behaviour", function(){
         expect(result).to.be.equal(2)
     })
 
-    it("test_calculate_moreThanTwoSameOperatorAddition_returnResult_omitPreviousOperator", () => {
+    it("test_calculate_moreThanTwoSameOperatorAddition_returnResult", () => {
         let sut = makeSUT()
         let result = sut.calculate("1+++1")
 
         expect(result).to.be.equal(2)
     })
 
-    it("test_calculate_doubleSameOperatorSubtract_returnResult_omitPreviousOperator", () => {
+    it("test_calculate_doubleSameOperatorSubtract_returnResult", () => {
         let sut = makeSUT()
         let result = sut.calculate("1--1")
 
-        expect(result).to.be.equal(0)
+        expect(result).to.be.equal(2)
     })
 
-    it("test_calculate_moreThanTwoSameOperatorSubtract_returnResult_omitPreviousOperator", () => {
+    it("test_calculate_moreThanTwoSameOperatorSubtract_returnResult", () => {
         let sut = makeSUT()
         let result = sut.calculate("4---1")
 
