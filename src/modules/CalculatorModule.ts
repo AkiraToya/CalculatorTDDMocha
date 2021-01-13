@@ -23,6 +23,14 @@ export class SubtractOperatorFunction implements OperatorFunction {
     }
 }
 
+export class MultiplicationOperatorFunction implements OperatorFunction{
+    symbol = "*"
+
+    calculateFn = (num1: number, num2: number) => {
+        return num1 * num2
+    }
+}
+
 
 export class CalculatorModule {
     private operatorList: OperatorList

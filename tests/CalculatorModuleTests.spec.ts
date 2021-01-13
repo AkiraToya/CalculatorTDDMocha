@@ -1,5 +1,5 @@
 import { expect } from "chai"
-import { AdditionOperatorFunction, CalculatorModule, OperatorList, SubtractOperatorFunction } from "../src/modules/CalculatorModule"
+import { AdditionOperatorFunction, CalculatorModule, OperatorList, SubtractOperatorFunction, MultiplicationOperatorFunction } from "../src/modules/CalculatorModule"
 
 describe("Test CalculatorModule behaviour", function(){
     it("test_calculate_noInput_returnZero", () => {
@@ -79,6 +79,13 @@ describe("Test CalculatorModule behaviour", function(){
         expect(result).to.be.equal(19)
     })
 
+    it("test_calculate_multiplicationOfTwoNumber_returnTheResult", () => {
+        let sut = makeSUT()
+        let result = sut.calculate("10 * 5")
+
+        expect(result).to.be.equal(50)
+    })
+
     // MARK: HELPER
     function makeSUT(): CalculatorModule{
         
@@ -89,7 +96,8 @@ describe("Test CalculatorModule behaviour", function(){
     function makeOperatorList(): OperatorList{
         let operatorList: OperatorList = {
             "+": new AdditionOperatorFunction(),
-            "-": new SubtractOperatorFunction()
+            "-": new SubtractOperatorFunction(),
+            "*": new MultiplicationOperatorFunction()
         }
 
         return operatorList
