@@ -15,14 +15,6 @@ export class AdditionOperatorFunction implements OperatorFunction{
     }
 }
 
-export class SubtractOperatorFunction implements OperatorFunction {
-    symbol = "-"
-
-    calculateFn = (num1: number, num2: number) => {
-        return num1 - num2
-    }
-}
-
 export class MultiplicationOperatorFunction implements OperatorFunction{
     symbol = "*"
 
@@ -31,12 +23,18 @@ export class MultiplicationOperatorFunction implements OperatorFunction{
     }
 }
 
-
 export class CalculatorModule {
     private operatorList: OperatorList
+    private operatorRegex: RegExp
 
     constructor(operatorList: OperatorList){
         this.operatorList = operatorList
+
+        var regexCommand = ""
+        for (let operator in this.operatorList) {
+            regexCommand += operator
+        }
+        this.operatorRegex = new RegExp(`([${regexCommand}])`)
     }
 
     calculate = (calculatorString: string = "") => {
@@ -47,7 +45,7 @@ export class CalculatorModule {
     }
 
     private processCalculate = (calculatorString: string) => {
-        let elements = calculatorString.replace(/([+*])/, ",$1,").split(",")
+        let elements = calculatorString.replace(this.operatorRegex, ",$1,").split(",")
         if (elements.length == 1) return parseInt(elements[0])
 
         var total = 0
