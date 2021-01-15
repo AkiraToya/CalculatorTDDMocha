@@ -37,35 +37,35 @@ export class CalculatorModule {
         this.operatorRegex = new RegExp(`([${regexCommand}])`)
     }
 
-    calculate = (calculatorString: string = "") => {
-        if (this.isErrorString(calculatorString)) return 0
-        var formattedCalculatorString = this.formatCalculatorString(calculatorString)
+    calculate = (formula: string = "") => {
+        if (this.isErrorString(formula)) return 0
+        var formattedCalculatorString = this.formatFormula(formula)
 
-        let calculatorStringAfterFirstTierOperator = this.calculateFirstTierOperator(formattedCalculatorString)
-        return this.calculateLastTierOperator(calculatorStringAfterFirstTierOperator)
+        let formulaAfterFirstTierOperator = this.calculateFirstTierOperator(formattedCalculatorString)
+        return this.calculateLastTierOperator(formulaAfterFirstTierOperator)
     }
 
-    private calculateFirstTierOperator = (calculatorString: string) => {
-        let tierElements = calculatorString.split(/([0-9]*[\*][0-9]*)/g)
-        if (tierElements[0] == "") tierElements.shift()
-        if (tierElements[tierElements.length - 1] == "") tierElements.pop()
+    private calculateFirstTierOperator = (formula: string) => {
+        let formulaElements = formula.split(/([0-9]*[\*][0-9]*)/g)
+        if (formulaElements[0] == "") formulaElements.shift()
+        if (formulaElements[formulaElements.length - 1] == "") formulaElements.pop()
 
-        var newCalculatorString = ""
+        var formula = ""
 
-        tierElements.forEach( elements => {
+        formulaElements.forEach( elements => {
             if(elements.match(/\*/g)){
-                newCalculatorString += `${this.calculateLastTierOperator(elements)}`
+                formula += `${this.calculateLastTierOperator(elements)}`
             }
             else{
-                newCalculatorString += `${elements}`
+                formula += `${elements}`
             }
         })
 
-        return newCalculatorString
+        return formula
     }
 
-    private calculateLastTierOperator = (calculatorString: string) => {
-        let elements = calculatorString.replace(this.operatorRegex, ",$1,").split(",")
+    private calculateLastTierOperator = (formula: string) => {
+        let elements = formula.replace(this.operatorRegex, ",$1,").split(",")
         if (elements.length == 1) return parseInt(elements[0])
 
         var total = 0
@@ -84,17 +84,17 @@ export class CalculatorModule {
         return false
     }
 
-    private formatCalculatorString(calculatorString: string) {
-        var formattedCalculatorString = calculatorString.trim()
+    private formatFormula(formula: string) {
+        var formattedFormula = formula.trim()
         
-        while (formattedCalculatorString.match(/--/g) != null) {
-            formattedCalculatorString = formattedCalculatorString.replace(/--/g, "+")
+        while (formattedFormula.match(/--/g) != null) {
+            formattedFormula = formattedFormula.replace(/--/g, "+")
         }
-        formattedCalculatorString = formattedCalculatorString.replace(/-/g, "+-").replace(/\s/g, "")
-        while (formattedCalculatorString.match(/\+\+/g) != null) {
-            formattedCalculatorString = formattedCalculatorString.replace(/\+\+/g, "+")
+        formattedFormula = formattedFormula.replace(/-/g, "+-").replace(/\s/g, "")
+        while (formattedFormula.match(/\+\+/g) != null) {
+            formattedFormula = formattedFormula.replace(/\+\+/g, "+")
         }
 
-        return formattedCalculatorString
+        return formattedFormula
     }
 }
