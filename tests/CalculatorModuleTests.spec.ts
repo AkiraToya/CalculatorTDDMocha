@@ -108,6 +108,13 @@ describe("Test CalculatorModule behaviour", function(){
         expect(result).to.be.equal(2)
     })
 
+    it("test_calculate_withMixAdditionAndDivisionOfNumbersWhenDivisionOnTheFront_returnTheResult", () => {
+        let sut = makeSUT()
+        let result = sut.calculate("10 / 5 + 3")
+
+        expect(result).to.be.equal(5)
+    })
+
     // MARK: HELPER
     function makeSUT(): CalculatorModule{
         
