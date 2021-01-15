@@ -15,7 +15,7 @@ export class CalculatorModule {
         for (let operator in this.operatorList) {
             regexCommand += operator
         }
-        this.operatorRegex = new RegExp(`([${regexCommand}])`)
+        this.operatorRegex = new RegExp(`(.*)([${regexCommand}])`)
     }
 
     calculate = (formula: string = "") => {
@@ -42,20 +42,19 @@ export class CalculatorModule {
                 formula += `${elements}`
             }
         })
-        console.log("Uncalculated Formula: " + formulaElements)
-        console.log("Formula: " + formula)
+        
         return formula
     }
 
     private calculateLastTierOperator = (formula: string) => {
-        let elements = formula.replace(this.operatorRegex, ",$1,").split(",")
+        let elements = formula.replace(this.operatorRegex, "$1,$2,").split(",")
         if (elements.length == 1) return parseInt(elements[0])
 
         var total = 0
         let operator = elements[1]
 
         if (operator in this.operatorList) {
-            total = this.operatorList[operator].calculateFn(isNaN(parseInt(elements[0])) ? 0 : parseInt(elements[0]), this.calculateLastTierOperator(elements[2]))
+            total = this.operatorList[operator].calculateFn(this.calculateLastTierOperator(elements[0]), isNaN(parseInt(elements[2])) ? 0 : parseInt(elements[2]))
         }
         return total
     }

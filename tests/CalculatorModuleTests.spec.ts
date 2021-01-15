@@ -127,7 +127,11 @@ describe("Test CalculatorModule behaviour", function(){
         expect(sut.calculate("10 + 5 + 3 /")).to.be.equal(18)
     })
 
-
+    it("test_calculate_withMixAdditionSubtractionMultiplicationAndDivision_returnTheResult", () => {
+        let sut = makeSUT()
+        let result = sut.calculate("10 / 5 + 3 * 2 - 7 + 9 / 3 + 30 + 10 - 5 / 5 * 3")
+        expect(result).to.be.equal(41)
+    })
 
     // MARK: HELPER
     function makeSUT(): CalculatorModule{
