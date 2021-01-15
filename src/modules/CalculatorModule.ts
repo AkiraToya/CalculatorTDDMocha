@@ -28,22 +28,31 @@ export class CalculatorModule {
 
     private calculateFirstTierOperator = (formula: string) => {
         let formulaElements = formula.split(/(\+)/g)
-        if (formulaElements[0] == "") formulaElements.shift()
-        if (formulaElements[formulaElements.length - 1] == "") formulaElements.pop()
+        this.cleanUpFormulaElements(formulaElements)
 
-        
+        return this.getSimpleFormula(formulaElements)
+    }
+
+    private getSimpleFormula(formulaElements: string[]){
         var formula = ""
 
-        formulaElements.forEach( elements => {
-            if(elements.match(/\*|\//g)){
+        formulaElements.forEach(elements => {
+            if (elements.match(/\*|\//g)) {
                 formula += `${this.calculateLastTierOperator(elements)}`
+                return
             }
-            else{
-                formula += `${elements}`
-            }
+
+            formula += `${elements}`
         })
 
         return formula
+    }
+
+    private cleanUpFormulaElements(formulaElements: string[]){
+        if (formulaElements[0] == "") formulaElements.shift()
+        if (formulaElements[formulaElements.length - 1] == "") formulaElements.pop()
+
+        return formulaElements
     }
 
     private calculateLastTierOperator = (formula: string) => {
@@ -54,7 +63,9 @@ export class CalculatorModule {
         let operator = elements[1]
 
         if (operator in this.operatorList) {
-            total = this.operatorList[operator].calculateFn(this.calculateLastTierOperator(elements[0]), isNaN(parseInt(elements[2])) ? 0 : parseInt(elements[2]))
+            let calculateOperator = this.operatorList[operator].calculateFn
+            let lastElement = isNaN(parseInt(elements[2])) ? 0 : parseInt(elements[2])
+            total = calculateOperator(this.calculateLastTierOperator(elements[0]), lastElement)
         }
         return total
     }
@@ -68,25 +79,42 @@ export class CalculatorModule {
 
     private formatFormula(formula: string) {
         var formattedFormula = formula.trim()
-        if (formattedFormula[formattedFormula.length-1].match(/\+|-/g)) formattedFormula += "0"
-        if (formattedFormula[formattedFormula.length-1].match(/\*|\//g)) formattedFormula += "1"
-
-        while (formattedFormula.match(/--/g) != null) {
-            formattedFormula = formattedFormula.replace(/--/g, "+")
-        }
-        formattedFormula = formattedFormula.replace(/-/g, "+-").replace(/\s/g, "")
-        while (formattedFormula.match(/\+\+/g) != null) {
-            formattedFormula = formattedFormula.replace(/\+\+/g, "+")
-        }
-
-        while (formattedFormula.match(/\*\*/g) != null) {
-            formattedFormula = formattedFormula.replace(/\*\*/g, "*")
-        }
-
-        while (formattedFormula.match(/\/\//g) != null) {
-            formattedFormula = formattedFormula.replace(/\/\//g, "/")
-        }
+        formattedFormula = this.fixFormulaEndWithOperator(formattedFormula)
+        formattedFormula = this.fixMinusOperator(formattedFormula)
+        formattedFormula = this.fixDoubleOperator(formattedFormula)
 
         return formattedFormula
+    }
+
+    private fixFormulaEndWithOperator(formula: string){
+        if (formula[formula.length - 1].match(/\+|-/g)) formula += "0"
+        if (formula[formula.length - 1].match(/\*|\//g)) formula += "1"
+
+        return formula
+    }
+
+    private fixMinusOperator(formula: string){
+        while (formula.match(/--/g) != null) {
+            formula = formula.replace(/--/g, "+")
+        }
+        formula = formula.replace(/-/g, "+-").replace(/\s/g, "")
+
+        return formula
+    }
+
+    private fixDoubleOperator(formula: string){
+        while (formula.match(/\+\+/g) != null) {
+            formula = formula.replace(/\+\+/g, "+")
+        }
+
+        while (formula.match(/\*\*/g) != null) {
+            formula = formula.replace(/\*\*/g, "*")
+        }
+
+        while (formula.match(/\/\//g) != null) {
+            formula = formula.replace(/\/\//g, "/")
+        }
+
+        return formula
     }
 }
