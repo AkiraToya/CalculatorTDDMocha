@@ -1,6 +1,6 @@
 import { expect } from "chai"
-import { CalculatorModule, OperatorList } from "../src/modules/CalculatorModule"
-import { AdditionOperatorFunction, MultiplicationOperatorFunction } from "../src/modules/OperatorFunction"
+import { CalculatorModule } from "../src/modules/CalculatorModule"
+import { CalculatorBuilder } from "../src/modules/CalculatorBuilder"
 
 describe("Test CalculatorModule behaviour", function(){
     it("test_calculate_noInput_returnZero", () => {
@@ -104,16 +104,7 @@ describe("Test CalculatorModule behaviour", function(){
     // MARK: HELPER
     function makeSUT(): CalculatorModule{
         
-        let sut = new CalculatorModule(makeOperatorList())
+        let sut = new CalculatorBuilder().build()
         return sut
-    }
-
-    function makeOperatorList(): OperatorList{
-        let operatorList: OperatorList = {
-            "+": new AdditionOperatorFunction(),
-            "*": new MultiplicationOperatorFunction()
-        }
-
-        return operatorList
     }
 })
