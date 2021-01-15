@@ -133,6 +133,12 @@ describe("Test CalculatorModule behaviour", function(){
         expect(result).to.be.equal(41)
     })
 
+    it("test_calculate_doubleOperatorOrMoreMultiplication_returnTheResult", () => {
+        let sut = makeSUT()
+        let result = sut.calculate("10 * * * 3")
+        expect(result).to.be.equal(30)
+    })
+
     // MARK: HELPER
     function makeSUT(): CalculatorModule{
         
