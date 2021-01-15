@@ -115,6 +115,12 @@ describe("Test CalculatorModule behaviour", function(){
         expect(result).to.be.equal(5)
     })
 
+    it("test_calculate_formulaWithOperatorEndingWithAddorSub_shouldGetZeroInTheEnd", () => {
+        let sut = makeSUT()
+        expect(sut.calculate("10 + 5 + 3 +")).to.be.equal(18)
+        expect(sut.calculate("10 + 5 + 3 -")).to.be.equal(18)
+    })
+
     // MARK: HELPER
     function makeSUT(): CalculatorModule{
         

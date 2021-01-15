@@ -27,10 +27,11 @@ export class CalculatorModule {
     }
 
     private calculateFirstTierOperator = (formula: string) => {
-        let formulaElements = formula.split(/([0-9]*[\*|\/][0-9]*)/g)
+        let formulaElements = formula.split(/(\+)/g)
         if (formulaElements[0] == "") formulaElements.shift()
         if (formulaElements[formulaElements.length - 1] == "") formulaElements.pop()
 
+        
         var formula = ""
 
         formulaElements.forEach( elements => {
@@ -41,7 +42,8 @@ export class CalculatorModule {
                 formula += `${elements}`
             }
         })
-
+        console.log("Uncalculated Formula: " + formulaElements)
+        console.log("Formula: " + formula)
         return formula
     }
 
@@ -67,6 +69,7 @@ export class CalculatorModule {
 
     private formatFormula(formula: string) {
         var formattedFormula = formula.trim()
+        if(formattedFormula[formattedFormula.length-1].match(/\+|-/g)) formattedFormula += "0"
         
         while (formattedFormula.match(/--/g) != null) {
             formattedFormula = formattedFormula.replace(/--/g, "+")
