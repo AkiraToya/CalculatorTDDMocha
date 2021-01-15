@@ -1,3 +1,4 @@
+import { FormulaFormatter } from "./FormulaFormatter"
 import { OperatorFunction } from "./OperatorFunction"
 
 export interface OperatorList{
@@ -20,7 +21,7 @@ export class CalculatorModule {
 
     calculate = (formula: string = "") => {
         if (this.isErrorString(formula)) return 0
-        var formattedCalculatorString = this.formatFormula(formula)
+        var formattedCalculatorString = new FormulaFormatter().format(formula)
 
         let formulaAfterFirstTierOperator = this.calculateFirstTierOperator(formattedCalculatorString)
         return this.calculateLastTierOperator(formulaAfterFirstTierOperator)
@@ -75,46 +76,5 @@ export class CalculatorModule {
         if (string.match(/[a-z]/g)) return true
 
         return false
-    }
-
-    private formatFormula(formula: string) {
-        var formattedFormula = formula.trim()
-        formattedFormula = this.fixFormulaEndWithOperator(formattedFormula)
-        formattedFormula = this.fixMinusOperator(formattedFormula)
-        formattedFormula = this.fixDoubleOperator(formattedFormula)
-
-        return formattedFormula
-    }
-
-    private fixFormulaEndWithOperator(formula: string){
-        if (formula[formula.length - 1].match(/\+|-/g)) formula += "0"
-        if (formula[formula.length - 1].match(/\*|\//g)) formula += "1"
-
-        return formula
-    }
-
-    private fixMinusOperator(formula: string){
-        while (formula.match(/--/g) != null) {
-            formula = formula.replace(/--/g, "+")
-        }
-        formula = formula.replace(/-/g, "+-").replace(/\s/g, "")
-
-        return formula
-    }
-
-    private fixDoubleOperator(formula: string){
-        while (formula.match(/\+\+/g) != null) {
-            formula = formula.replace(/\+\+/g, "+")
-        }
-
-        while (formula.match(/\*\*/g) != null) {
-            formula = formula.replace(/\*\*/g, "*")
-        }
-
-        while (formula.match(/\/\//g) != null) {
-            formula = formula.replace(/\/\//g, "/")
-        }
-
-        return formula
     }
 }
