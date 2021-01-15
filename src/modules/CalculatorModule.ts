@@ -83,6 +83,10 @@ export class CalculatorModule {
             formattedFormula = formattedFormula.replace(/\*\*/g, "*")
         }
 
+        while (formattedFormula.match(/\/\//g) != null) {
+            formattedFormula = formattedFormula.replace(/\/\//g, "/")
+        }
+
         return formattedFormula
     }
 }

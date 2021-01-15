@@ -139,6 +139,12 @@ describe("Test CalculatorModule behaviour", function(){
         expect(result).to.be.equal(30)
     })
 
+    it("test_calculate_doubleOperatorOrMoreDivision_returnTheResult", () => {
+        let sut = makeSUT()
+        let result = sut.calculate("10 / / / 2")
+        expect(result).to.be.equal(5)
+    })
+
     // MARK: HELPER
     function makeSUT(): CalculatorModule{
         
