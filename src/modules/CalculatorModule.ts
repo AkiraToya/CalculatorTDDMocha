@@ -41,29 +41,30 @@ export class CalculatorModule {
         if (this.isErrorString(calculatorString)) return 0
         var formattedCalculatorString = this.formatCalculatorString(calculatorString)
 
-        return this.processTierCalculate(formattedCalculatorString)
+        let calculatorStringAfterFirstTierOperator = this.calculateFirstTierOperator(formattedCalculatorString)
+        return this.calculateLastTierOperator(calculatorStringAfterFirstTierOperator)
     }
 
-    private processTierCalculate = (calculatorString: string) => {
+    private calculateFirstTierOperator = (calculatorString: string) => {
         let tierElements = calculatorString.split(/([0-9]*[\*][0-9]*)/g)
         if (tierElements[0] == "") tierElements.shift()
         if (tierElements[tierElements.length - 1] == "") tierElements.pop()
 
         var newCalculatorString = ""
-        
+
         tierElements.forEach( elements => {
             if(elements.match(/\*/g)){
-                newCalculatorString += `${this.processCalculate(elements)}`
+                newCalculatorString += `${this.calculateLastTierOperator(elements)}`
             }
             else{
                 newCalculatorString += `${elements}`
             }
         })
 
-        return this.processCalculate(newCalculatorString)
+        return newCalculatorString
     }
 
-    private processCalculate = (calculatorString: string) => {
+    private calculateLastTierOperator = (calculatorString: string) => {
         let elements = calculatorString.replace(this.operatorRegex, ",$1,").split(",")
         if (elements.length == 1) return parseInt(elements[0])
 
@@ -71,7 +72,7 @@ export class CalculatorModule {
         let operator = elements[1]
 
         if (operator in this.operatorList) {
-            total = this.operatorList[operator].calculateFn(isNaN(parseInt(elements[0])) ? 0 : parseInt(elements[0]), this.processCalculate(elements[2]))
+            total = this.operatorList[operator].calculateFn(isNaN(parseInt(elements[0])) ? 0 : parseInt(elements[0]), this.calculateLastTierOperator(elements[2]))
         }
         return total
     }
