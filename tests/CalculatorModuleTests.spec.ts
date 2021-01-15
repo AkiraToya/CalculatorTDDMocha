@@ -1,5 +1,6 @@
 import { expect } from "chai"
-import { AdditionOperatorFunction, CalculatorModule, OperatorList, MultiplicationOperatorFunction } from "../src/modules/CalculatorModule"
+import { CalculatorModule, OperatorList } from "../src/modules/CalculatorModule"
+import { AdditionOperatorFunction, MultiplicationOperatorFunction } from "../src/modules/OperatorFunction"
 
 describe("Test CalculatorModule behaviour", function(){
     it("test_calculate_noInput_returnZero", () => {
