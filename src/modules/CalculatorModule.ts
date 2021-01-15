@@ -69,8 +69,9 @@ export class CalculatorModule {
 
     private formatFormula(formula: string) {
         var formattedFormula = formula.trim()
-        if(formattedFormula[formattedFormula.length-1].match(/\+|-/g)) formattedFormula += "0"
-        
+        if (formattedFormula[formattedFormula.length-1].match(/\+|-/g)) formattedFormula += "0"
+        if (formattedFormula[formattedFormula.length-1].match(/\*|\//g)) formattedFormula += "1"
+
         while (formattedFormula.match(/--/g) != null) {
             formattedFormula = formattedFormula.replace(/--/g, "+")
         }

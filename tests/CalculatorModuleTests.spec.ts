@@ -121,6 +121,14 @@ describe("Test CalculatorModule behaviour", function(){
         expect(sut.calculate("10 + 5 + 3 -")).to.be.equal(18)
     })
 
+    it("test_calculate_formulaWithOperatorEndingWithMultiplicationOrDivision_shouldGetOneInTheEnd", () => {
+        let sut = makeSUT()
+        expect(sut.calculate("10 + 5 + 3 *")).to.be.equal(18)
+        expect(sut.calculate("10 + 5 + 3 /")).to.be.equal(18)
+    })
+
+
+
     // MARK: HELPER
     function makeSUT(): CalculatorModule{
         
