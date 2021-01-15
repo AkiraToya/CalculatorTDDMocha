@@ -41,7 +41,26 @@ export class CalculatorModule {
         if (this.isErrorString(calculatorString)) return 0
         var formattedCalculatorString = this.formatCalculatorString(calculatorString)
 
-        return this.processCalculate(formattedCalculatorString)
+        return this.processTierCalculate(formattedCalculatorString)
+    }
+
+    private processTierCalculate = (calculatorString: string) => {
+        let tierElements = calculatorString.split(/([0-9]*[\*][0-9]*)/g)
+        if (tierElements[0] == "") tierElements.shift()
+        if (tierElements[tierElements.length - 1] == "") tierElements.pop()
+
+        var newCalculatorString = ""
+        
+        tierElements.forEach( elements => {
+            if(elements.match(/\*/g)){
+                newCalculatorString += `${this.processCalculate(elements)}`
+            }
+            else{
+                newCalculatorString += `${elements}`
+            }
+        })
+
+        return this.processCalculate(newCalculatorString)
     }
 
     private processCalculate = (calculatorString: string) => {
@@ -53,7 +72,6 @@ export class CalculatorModule {
 
         if (operator in this.operatorList) {
             total = this.operatorList[operator].calculateFn(isNaN(parseInt(elements[0])) ? 0 : parseInt(elements[0]), this.processCalculate(elements[2]))
-
         }
         return total
     }
@@ -67,7 +85,15 @@ export class CalculatorModule {
 
     private formatCalculatorString(calculatorString: string) {
         var formattedCalculatorString = calculatorString.trim()
-        formattedCalculatorString = formattedCalculatorString.replace(/--/g, "+").replace(/-/g, "+-").replace(/\s/g, "")
+        
+        while (formattedCalculatorString.match(/--/g) != null) {
+            formattedCalculatorString = formattedCalculatorString.replace(/--/g, "+")
+        }
+        formattedCalculatorString = formattedCalculatorString.replace(/-/g, "+-").replace(/\s/g, "")
+        while (formattedCalculatorString.match(/\+\+/g) != null) {
+            formattedCalculatorString = formattedCalculatorString.replace(/\+\+/g, "+")
+        }
+
         return formattedCalculatorString
     }
 }

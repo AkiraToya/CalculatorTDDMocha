@@ -86,6 +86,20 @@ describe("Test CalculatorModule behaviour", function(){
         expect(result).to.be.equal(50)
     })
 
+    it("test_calculate_withMixAdditionAndMultiplicationOfNumbers_returnTheResult", () => {
+        let sut = makeSUT()
+        let result = sut.calculate("3 + 10 * 5")
+
+        expect(result).to.be.equal(53)
+    })
+
+    it("test_calculate_withMixAdditionAndMultiplicationOfNumbersWhenMultiplicationOnTheFront_returnTheResult", () => {
+        let sut = makeSUT()
+        let result = sut.calculate("10 * 5 + 3")
+
+        expect(result).to.be.equal(53)
+    })
+
     // MARK: HELPER
     function makeSUT(): CalculatorModule{
         
