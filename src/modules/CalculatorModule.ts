@@ -27,14 +27,14 @@ export class CalculatorModule {
     }
 
     private calculateFirstTierOperator = (formula: string) => {
-        let formulaElements = formula.split(/([0-9]*[\*][0-9]*)/g)
+        let formulaElements = formula.split(/([0-9]*[\*|\/][0-9]*)/g)
         if (formulaElements[0] == "") formulaElements.shift()
         if (formulaElements[formulaElements.length - 1] == "") formulaElements.pop()
 
         var formula = ""
 
         formulaElements.forEach( elements => {
-            if(elements.match(/\*/g)){
+            if(elements.match(/\*|\//g)){
                 formula += `${this.calculateLastTierOperator(elements)}`
             }
             else{

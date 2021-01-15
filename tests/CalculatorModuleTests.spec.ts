@@ -101,6 +101,13 @@ describe("Test CalculatorModule behaviour", function(){
         expect(result).to.be.equal(53)
     })
 
+    it("test_calculate_divisionOfTwoNumber_returnTheResult", () => {
+        let sut = makeSUT()
+        let result = sut.calculate("10 / 5")
+
+        expect(result).to.be.equal(2)
+    })
+
     // MARK: HELPER
     function makeSUT(): CalculatorModule{
         

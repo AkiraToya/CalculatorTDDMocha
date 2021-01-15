@@ -1,11 +1,12 @@
 import { CalculatorModule, OperatorList } from "./CalculatorModule"
-import { AdditionOperatorFunction, MultiplicationOperatorFunction } from "./OperatorFunction"
+import { AdditionOperatorFunction, MultiplicationOperatorFunction, DivisionOperatorFunction } from "./OperatorFunction"
 
 export class CalculatorBuilder{
     setupOperatorList = () => {
         let operatorList: OperatorList = {
             "+": new AdditionOperatorFunction(),
-            "*": new MultiplicationOperatorFunction()
+            "*": new MultiplicationOperatorFunction(),
+            "/": new DivisionOperatorFunction()
         }
 
         return operatorList
